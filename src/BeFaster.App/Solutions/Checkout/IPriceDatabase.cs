@@ -13,7 +13,7 @@
         /// Returns null if there is no offer for this sku.
         /// If the sku is invalid it will throw an <see cref="SkuInvalidException"/>.
         /// </summary>
-        MultiPrice GetMultiPriceOfferFor(char sku);
+        IList<MultiPrice> GetMultiPriceOfferFor(char sku);
 
         /// <summary>
         /// Returns a GetOneFreeOffer defining an offer for this sku.

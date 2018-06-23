@@ -19,7 +19,7 @@ namespace BeFaster.App.Solutions
         private class InMemoryPriceDatabase : IPriceDatabase
         {
             private readonly Dictionary<char, int> individualPrices;
-            private readonly Dictionary<char, MultiPrice> multiPrices;
+            private readonly Dictionary<char, List<MultiPrice>> multiPrices;
             private readonly Dictionary<char, GetOneFreeOffer> getOneFreeOffers;
 
             public InMemoryPriceDatabase()
@@ -33,10 +33,14 @@ namespace BeFaster.App.Solutions
                     { 'E', 40 },
                 };
 
-                multiPrices = new Dictionary<char, MultiPrice>
+                multiPrices = new Dictionary<char, List<MultiPrice>>
                 {
-                    {'A', new MultiPrice(quantity: 3, price: 130) },
-                    {'B', new MultiPrice(quantity: 2, price: 45) },
+                    {'A', new List<MultiPrice>
+                    {
+                        new MultiPrice(quantity: 3, price: 130),
+                        new MultiPrice(quantity: 5, price: 200),
+                    }},
+                    {'B', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 45) } },
                 };
 
                 getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>
@@ -51,7 +55,7 @@ namespace BeFaster.App.Solutions
                 return individualPrices[sku];
             }
 
-            public MultiPrice GetMultiPriceOfferFor(char sku)
+            public IList<MultiPrice> GetMultiPriceOfferFor(char sku)
             {
                 AssertSkuExists(sku);
                 return multiPrices.ContainsKey(sku) ? multiPrices[sku] : null;
