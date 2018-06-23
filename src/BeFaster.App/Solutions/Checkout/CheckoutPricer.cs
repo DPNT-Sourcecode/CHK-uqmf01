@@ -82,13 +82,13 @@ namespace BeFaster.App.Solutions.Checkout
         private int CalculateMultiPriceFor(IList<MultiPrice> multiPriceOffers, int individualPrice, int quantity)
         {
             var offersOrderedByAveragePrice = multiPriceOffers
-                .OrderByDescending(x => decimal.Divide(x.Price, x.Quantity));
+                .OrderBy(x => decimal.Divide(x.Price, x.Quantity));
             var priceSoFar = 0;
             var quantityLeft = quantity;
             foreach (var offer in offersOrderedByAveragePrice)
             {
                 var numberOfTimesToApplyOffer = quantityLeft / offer.Quantity;
-                quantityLeft = quantity % offer.Quantity;
+                quantityLeft = quantityLeft % offer.Quantity;
                 priceSoFar += numberOfTimesToApplyOffer * offer.Price;
             }
             return priceSoFar + quantityLeft * individualPrice;
