@@ -36,7 +36,7 @@ namespace BeFaster.App.Solutions
                     { 'H', 10 },
                     { 'I', 35 },
                     { 'J', 60 },
-                    { 'K', 80 },
+                    { 'K', 70 },
                     { 'L', 90 },
                     { 'M', 15 },
                     { 'N', 40 },
@@ -44,14 +44,14 @@ namespace BeFaster.App.Solutions
                     { 'P', 50 },
                     { 'Q', 30 },
                     { 'R', 50 },
-                    { 'S', 30 },
+                    { 'S', 20 },
                     { 'T', 20 },
                     { 'U', 40 },
                     { 'V', 50 },
                     { 'W', 20 },
-                    { 'X', 90 },
-                    { 'Y', 10 },
-                    { 'Z', 50 },
+                    { 'X', 17 },
+                    { 'Y', 20 },
+                    { 'Z', 21 },
                 };
 
                 multiPrices = new Dictionary<char, List<MultiPrice>>
@@ -68,7 +68,7 @@ namespace BeFaster.App.Solutions
                         new MultiPrice(quantity: 5, price: 45),
                         new MultiPrice(quantity: 10, price: 80),
                     }},
-                    {'K', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 150) } },
+                    {'K', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 120) } },
                     {'P', new List<MultiPrice>{new MultiPrice(quantity: 5, price: 200) } },
                     {'Q', new List<MultiPrice>{new MultiPrice(quantity: 3, price: 80) } },
                     {'U', new List<MultiPrice>{new MultiPrice(quantity: 4, price: 120) } },// Buy 3 get 1 free
