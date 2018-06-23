@@ -161,16 +161,18 @@ namespace BeFaster.App.Tests.Solutions
             priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
                 .Returns(10);
             priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
-                .Returns(new MultiPrice[] { new MultiPrice(quantity: 3, price: 25) });
+                .Returns(new MultiPrice[] {
+                    new MultiPrice(quantity: 2, price: 15),
+                    new MultiPrice(quantity: 3, price: 22)});
         }
 
         [TestCase("X", 10)]
-        [TestCase("XX", 20)]
-        [TestCase("XXX", 25)]
-        [TestCase("XXXX", 35)]
-        [TestCase("XXXXX", 45)]
-        [TestCase("XXXXXX", 50)]
-        [TestCase("XXXXXXX", 60)]
+        [TestCase("XX", 15)]
+        [TestCase("XXX", 22)]
+        [TestCase("XXXX", 30)]// 2+2
+        [TestCase("XXXXX", 37)]//2+3
+        [TestCase("XXXXXX", 44)]//3+3
+        [TestCase("XXXXXXX", 54)]//3+3+1
         public void BuyingSeveralItemsHasTheCorrectPrice(string skus, int correctPrice)
         {
             var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
