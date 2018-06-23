@@ -65,18 +65,31 @@ namespace BeFaster.App.Tests.Solutions
     }
 
     [TestFixture]
-    class WhenBuyingSeveralOfTheSameItem
+    class WhenAThreeMultiPriceOfferExists
     {
-        [Test]
-        public void MultiPricedItems()
+        private Mock<IPriceDatabase> priceDatabase;
+
+        [SetUp]
+        public void SetUp()
         {
-            var priceDatabase = new Mock<IPriceDatabase>();
+            priceDatabase = new Mock<IPriceDatabase>();
             priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
                 .Returns(10);
             priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
                 .Returns(new MultiPrice(quantity: 3, price: 25));
+        }
+
+        [TestCase("X", 10)]
+        [TestCase("XX", 20)]
+        [TestCase("XXX", 25)]
+        [TestCase("XXXX", 35)]
+        [TestCase("XXXXX", 45)]
+        [TestCase("XXXXXX", 50)]
+        [TestCase("XXXXXXX", 60)]
+        public void BuyingSeveralItemsHasTheCorrectPrice(string skus, int correctPrice)
+        {
             var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
-            Assert.That(checkoutPricer.CalculatePrice("XXX"), Is.EqualTo(25));
+            Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
-}
+}
