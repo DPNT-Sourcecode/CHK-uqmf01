@@ -47,4 +47,20 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice("XY"), Is.EqualTo(15));
         }
     }
-}
+
+    [TestFixture]
+    class WhenTheBasketContainsAnInvalidSku
+    {
+        [Test]
+        public void ThePriceIsMinusOne()
+        {
+            var priceDatabase = new Mock<IPriceDatabase>();
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
+                .Returns(10);
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('Y'))
+                .Throws(new SkuInvalidException('Y'));
+            var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
+            Assert.That(checkoutPricer.CalculatePrice("XY"), Is.EqualTo(-1));
+        }
+    }
+}
