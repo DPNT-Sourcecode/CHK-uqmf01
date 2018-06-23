@@ -1,4 +1,6 @@
-﻿namespace BeFaster.App.Solutions.Checkout
+﻿using System.Collections.Generic;
+
+namespace BeFaster.App.Solutions.Checkout
 {
     public interface IPriceDatabase
     {
@@ -9,8 +11,8 @@
         int GetIndividualPriceFor(char sku);
 
         /// <summary>
-        /// Returns a MultiPrice defining an offer for this sku.
-        /// Returns null if there is no offer for this sku.
+        /// Returns an IList of MultiPrice defining the offers for this sku.
+        /// Returns an empty IList if there is no offers for this sku.
         /// If the sku is invalid it will throw an <see cref="SkuInvalidException"/>.
         /// </summary>
         IList<MultiPrice> GetMultiPriceOfferFor(char sku);

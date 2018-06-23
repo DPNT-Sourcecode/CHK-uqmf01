@@ -58,7 +58,7 @@ namespace BeFaster.App.Solutions
             public IList<MultiPrice> GetMultiPriceOfferFor(char sku)
             {
                 AssertSkuExists(sku);
-                return multiPrices.ContainsKey(sku) ? multiPrices[sku] : null;
+                return multiPrices.ContainsKey(sku) ? multiPrices[sku] : new List<MultiPrice>(0);
             }
 
             public GetOneFreeOffer GetGetOneFreeOfferFor(char sku)

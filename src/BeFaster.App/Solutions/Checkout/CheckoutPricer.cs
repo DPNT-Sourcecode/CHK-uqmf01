@@ -68,24 +68,25 @@ namespace BeFaster.App.Solutions.Checkout
 
         private int CalculatePriceFor(char sku, int quantity)
         {
-            var multiPrice = priceDatabase.GetMultiPriceOfferFor(sku);
+            var multiPriceOffers = priceDatabase.GetMultiPriceOfferFor(sku);
             var individualPrice = priceDatabase.GetIndividualPriceFor(sku);
             var normalPrice = individualPrice * quantity;
-            if (multiPrice == null)
+            if (!multiPriceOffers.Any())
             {
                 return normalPrice;
             }
-            var offerPrice = CalculateMultiPriceFor(multiPrice, individualPrice, quantity);
+            var offerPrice = CalculateMultiPriceFor(multiPriceOffers, individualPrice, quantity);
             return Math.Min(normalPrice, offerPrice);
         }
 
-        private int CalculateMultiPriceFor(MultiPrice multiPrice, int individualPrice, int quantity)
+        private int CalculateMultiPriceFor(IList<MultiPrice> multiPriceOffers, int individualPrice, int quantity)
         {
-            var numberOfMultiGroups = quantity / multiPrice.Quantity;
-            var numberLeftOver = quantity % multiPrice.Quantity;
-            var offerPrice = numberOfMultiGroups * multiPrice.Price
-                + numberLeftOver * individualPrice;
-            return offerPrice;
+            //var numberOfMultiGroups = quantity / multiPrice.Quantity;
+            //var numberLeftOver = quantity % multiPrice.Quantity;
+            //var offerPrice = numberOfMultiGroups * multiPrice.Price
+            //    + numberLeftOver * individualPrice;
+            //return offerPrice;
+            throw new NotImplementedException();
         }
 
         private Dictionary<char, int> CreateItemsCountDictionary(string skus)
