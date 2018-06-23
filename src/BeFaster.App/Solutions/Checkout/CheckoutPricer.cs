@@ -69,10 +69,14 @@ namespace BeFaster.App.Solutions.Checkout
         private int CalculatePriceInternal(string skus)
         {
             var basket = new Basket(skus, priceSoFar: 0);
-            
-            foreach(var groupOffer in priceDatabase.GetGroupOffers())
+
+            var groupOffers = priceDatabase.GetGroupOffers();
+            if (groupOffers != null)
             {
-                basket = ApplyGroupOffer(basket, groupOffer);
+                foreach (var groupOffer in groupOffers)
+                {
+                    basket = ApplyGroupOffer(basket, groupOffer);
+                }
             }
             var items = CreateItemsCountDictionary(basket.ItemsLeftToCost());
             var total = basket.PriceSoFar;
