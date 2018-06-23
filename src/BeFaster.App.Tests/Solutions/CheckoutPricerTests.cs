@@ -77,7 +77,7 @@ namespace BeFaster.App.Tests.Solutions
             priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
                 .Returns(10);
             priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
-                .Returns(new MultiPrice(quantity: 3, price: 25));
+                .Returns(new MultiPrice[] { new MultiPrice(quantity: 3, price: 25) });
         }
 
         [TestCase("X", 10)]
@@ -106,7 +106,7 @@ namespace BeFaster.App.Tests.Solutions
             priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
                 .Returns(10);
             priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
-                .Returns(new MultiPrice(quantity: 2, price: 25));
+                .Returns((new MultiPrice[] { new MultiPrice(quantity: 2, price: 25) });
         }
 
         [TestCase("X", 10)]
@@ -161,7 +161,7 @@ namespace BeFaster.App.Tests.Solutions
             priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
                 .Returns(10);
             priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
-                .Returns(new MultiPrice(quantity: 3, price: 25));
+                .Returns((new MultiPrice[] { new MultiPrice(quantity: 3, price: 25) });
         }
 
         [TestCase("X", 10)]
