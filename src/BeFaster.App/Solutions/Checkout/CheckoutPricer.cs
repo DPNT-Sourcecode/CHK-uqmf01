@@ -25,6 +25,7 @@ namespace BeFaster.App.Solutions.Checkout
                     var quantity = skuAndQuantity.Value;
                     total += CalculatePriceFor(sku, quantity);
                 }
+                return total;
             }
             catch (SkuInvalidException)
             {
@@ -41,7 +42,12 @@ namespace BeFaster.App.Solutions.Checkout
             {
                 return individualPrice * quantity;
             }
-            return CalculatePrice
+
+            var numberOfMultiGroups = quantity / multiPrice.Quantity;
+            var numberLeftOver = quantity % multiPrice.Quantity;
+            var offerPrice = numberOfMultiGroups * multiPrice.Price
+                + numberLeftOver * individualPrice;
+            return offerPrice;
         }
 
         private Dictionary<char, int> CreateItemsCountDictionary(string skus)
