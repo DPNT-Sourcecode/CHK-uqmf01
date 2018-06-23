@@ -63,4 +63,4 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice("XY"), Is.EqualTo(-1));
         }
     }
-}
+}
