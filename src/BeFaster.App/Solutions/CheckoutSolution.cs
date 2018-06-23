@@ -45,12 +45,6 @@ namespace BeFaster.App.Solutions
                 };
             }
 
-            public GetOneFreeOffer GetGetOneFreeOfferFor(char sku)
-            {
-                AssertSkuExists(sku);
-                return getOneFreeOffers?[sku];
-            }
-
             public int GetIndividualPriceFor(char sku)
             {
                 AssertSkuExists(sku);
@@ -60,7 +54,13 @@ namespace BeFaster.App.Solutions
             public MultiPrice GetMultiPriceOfferFor(char sku)
             {
                 AssertSkuExists(sku);
-                return multiPrices?[sku];
+                return multiPrices.ContainsKey(sku) ? multiPrices[sku] : null;
+            }
+
+            public GetOneFreeOffer GetGetOneFreeOfferFor(char sku)
+            {
+                AssertSkuExists(sku);
+                return getOneFreeOffers.ContainsKey(sku) ? getOneFreeOffers[sku] : null;
             }
 
             private void AssertSkuExists(char sku)
