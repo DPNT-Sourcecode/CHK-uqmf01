@@ -45,6 +45,9 @@ namespace BeFaster.App.Solutions.Checkout
             private Dictionary<char, int> ItemsLeftToCostDictionary { get; }
             public int PriceSoFar { get; }
 
+            public Dictionary<char, int> ItemsLeftToCostCountBySku
+                => ItemsLeftToCostDictionary.ToDictionary(x => x.Key, x => x.Value);
+
             public string ItemsLeftToCost()
             {
                 var builder = new StringBuilder();
@@ -78,7 +81,11 @@ namespace BeFaster.App.Solutions.Checkout
                     basket = ApplyGroupOffer(basket, groupOffer);
                 }
             }
-            var items = CreateItemsCountDictionary(basket.ItemsLeftToCost());
+
+            // We apply group offers first and then do the others. This only works becuase
+            // at the moment in our system group offers never overlap with other offers.
+            // This would need a good rethink if that changed
+            var items = basket.ItemsLeftToCostCountBySku;
             var total = basket.PriceSoFar;
             var potentialFreeItems = CalulatePotentialFreeItemCounts(items);
             foreach (var skuAndQuantity in items)
@@ -170,12 +177,6 @@ namespace BeFaster.App.Solutions.Checkout
                 priceSoFar += numberOfTimesToApplyOffer * offer.Price;
             }
             return priceSoFar + quantityLeft * individualPrice;
-        }
-
-        private Dictionary<char, int> CreateItemsCountDictionary(string skus)
-        {
-            return skus.GroupBy(x => x)
-                .ToDictionary(x => x.Key, x => x.Count());
         }
     }
 }
