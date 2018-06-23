@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BeFaster.App.Solutions.Checkout
 {
@@ -17,12 +18,11 @@ namespace BeFaster.App.Solutions.Checkout
             try
             {
                 var items = CreateItemsCountDictionary(skus);
-                var total = 0;
-                foreach (var sku in skus)
+                foreach(var skuAndQuantity in items)
                 {
-                    total += priceDatabase.GetIndividualPriceFor(sku);
+                    var sku = skuAndQuantity.Key;
+                    var quantity = skuAndQuantity.Value;
                 }
-                return total;
             }
             catch (SkuInvalidException)
             {
@@ -33,19 +33,8 @@ namespace BeFaster.App.Solutions.Checkout
 
         private Dictionary<char, int> CreateItemsCountDictionary(string skus)
         {
-            var itemCounts = new Dictionary<char, int>();
-            foreach(var sku in skus)
-            {
-                if (itemCounts.ContainsKey(sku))
-                {
-                    itemCounts[sku]++;
-                }
-                else
-                {
-                    itemCounts[sku] = 1;
-                }
-            }
-            return itemCounts;
+            return skus.GroupBy(x => x)
+                .ToDictionary(x => x.Key, x => x.Count());
         }
     }
 }
