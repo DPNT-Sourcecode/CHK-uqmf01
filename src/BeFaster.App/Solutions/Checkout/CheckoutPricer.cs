@@ -81,6 +81,7 @@ namespace BeFaster.App.Solutions.Checkout
 
         private int CalculateMultiPriceFor(IList<MultiPrice> multiPriceOffers, int individualPrice, int quantity)
         {
+            // This may not give the customer the best price, if the offers are not well balanced
             var offersOrderedByAveragePrice = multiPriceOffers
                 .OrderBy(x => decimal.Divide(x.Price, x.Quantity));
             var priceSoFar = 0;
