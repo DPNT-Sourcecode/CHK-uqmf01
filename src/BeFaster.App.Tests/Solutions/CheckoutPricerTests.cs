@@ -179,4 +179,43 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
-}
+
+    [TestFixture]
+    class WhenAGroupByOfferExists
+    {
+        private Mock<IPriceDatabase> priceDatabase;
+
+        [SetUp]
+        public void SetUp()
+        {
+            priceDatabase = new Mock<IPriceDatabase>();
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
+                .Returns(10);
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('Y'))
+                .Returns(11);
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('Z'))
+                .Returns(9);
+            priceDatabase.Setup(x => x.GetGroupOffers())
+                .Returns(new GroupOffer[] { new GroupOffer(skus: "XYZ", quantity: 2, price: 19)});
+        }
+
+        [TestCase("X", 10)]
+        [TestCase("XX", 19)]
+        [TestCase("XXX", 29)]
+        [TestCase("Y", 11)]
+        [TestCase("YY", 19)]
+        [TestCase("YYY", 30)]
+        [TestCase("Z", 9)]
+        [TestCase("ZZ", 18)]
+        [TestCase("ZZZ", 27)]
+        [TestCase("XXXX", 38)]
+        [TestCase("XY", 19)]
+        [TestCase("XZ", 19)]
+        [TestCase("XYZ", 28)]
+        public void BuyingSeveralItemsHasTheCorrectPrice(string skus, int correctPrice)
+        {
+            var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
+            Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
+        }
+    }
+}

@@ -25,5 +25,7 @@ namespace BeFaster.App.Solutions.Checkout
         /// <param name="sku"></param>
         /// <returns></returns>
         GetOneFreeOffer GetGetOneFreeOfferFor(char sku);
+
+        IList<GroupOffer> GetGroupOffers();
     }
 }
