@@ -40,7 +40,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Solutions\SumSolutionTest.cs" />
+    <Compile Include="Solutions\HelloSolutionTests.cs" />
+    <Compile Include="Solutions\SumSolutionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

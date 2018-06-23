@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BeFaster.App.Solutions;
+using NUnit.Framework;
 
 namespace BeFaster.App.Tests.Solutions
 {
-    class HelloSolutionTests
+    [TestFixture]
+    public class HelloSolutionTests
     {
+        [Test]
+        public void TestHello()
+        {
+            var name = "John";
+            Assert.That(HelloSolution.Hello(name), Is.EqualTo("Hello World, I'm John"));
+        }
     }
 }
