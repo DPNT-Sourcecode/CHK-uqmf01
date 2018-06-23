@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BeFaster.App.Solutions.Checkout
 {
@@ -14,5 +15,10 @@ namespace BeFaster.App.Solutions.Checkout
         public HashSet<char> Skus { get; }
         public int Quantity { get; }
         public int Price { get; }
+
+        public bool AppliesTo(char x)
+        {
+            return Skus.Contains(x);
+        }
     }
 }
