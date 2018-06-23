@@ -135,7 +135,7 @@ namespace BeFaster.App.Tests.Solutions
             priceDatabase.Setup(x => x.GetIndividualPriceFor('Y'))
                 .Returns(5);
             priceDatabase.Setup(x => x.GetGetOneFreeOfferFor('X'))
-                .Returns(new GetOneFreeOffer(quantity: 2, freeSkus: "Y"));
+                .Returns(new GetOneFreeOffer(quantity: 2, freeSku: 'Y'));
         }
 
         [TestCase("XXY", 20)]
@@ -148,4 +148,4 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
-}
+}
