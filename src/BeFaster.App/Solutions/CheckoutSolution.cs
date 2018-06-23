@@ -1,6 +1,4 @@
 ﻿using BeFaster.App.Solutions.Checkout;
-using BeFaster.Runner.Exceptions;
-using System;
 using System.Collections.Generic;
 
 namespace BeFaster.App.Solutions
@@ -11,8 +9,13 @@ namespace BeFaster.App.Solutions
         {
             var checkoutPricer = new CheckoutPricer(
                 new InMemoryPriceDatabase());
+            return checkoutPricer.CalculatePrice(skus);
         }
 
+        /// <summary>
+        /// todo I would write tests over this, but I'll leave that for now,
+        /// as this is basically a stub implementation
+        /// </summary>
         private class InMemoryPriceDatabase : IPriceDatabase
         {
             private readonly Dictionary<char, int> individualPrices;
@@ -34,6 +37,7 @@ namespace BeFaster.App.Solutions
                     {'B', new MultiPrice(quantity: 2, price: 45) },
                 };
             }
+
             public int GetIndividualPriceFor(char sku)
             {
                 if (individualPrices.ContainsKey(sku))

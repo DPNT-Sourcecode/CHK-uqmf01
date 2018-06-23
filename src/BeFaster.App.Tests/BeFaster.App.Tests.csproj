@@ -53,6 +53,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Solutions\CheckoutPricerTests.cs" />
     <Compile Include="Solutions\CheckoutSolutionTests.cs" />
     <Compile Include="Solutions\HelloSolutionTests.cs" />
     <Compile Include="Solutions\SumSolutionTests.cs" />
