@@ -68,7 +68,7 @@ namespace BeFaster.App.Solutions.Checkout
 
         private int CalculatePriceFor(char sku, int quantity)
         {
-            var multiPriceOffers = priceDatabase.GetMultiPriceOfferFor(sku);
+            var multiPriceOffers = priceDatabase.GetMultiPriceOfferFor(sku) ?? new MultiPrice[0]; ;
             var individualPrice = priceDatabase.GetIndividualPriceFor(sku);
             var normalPrice = individualPrice * quantity;
             if (!multiPriceOffers.Any())

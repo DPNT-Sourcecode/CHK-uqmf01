@@ -12,7 +12,7 @@ namespace BeFaster.App.Solutions.Checkout
 
         /// <summary>
         /// Returns an IList of MultiPrice defining the offers for this sku.
-        /// Returns an empty IList if there is no offers for this sku.
+        /// Returns an empty IList or null if there is no offers for this sku.
         /// If the sku is invalid it will throw an <see cref="SkuInvalidException"/>.
         /// </summary>
         IList<MultiPrice> GetMultiPriceOfferFor(char sku);
