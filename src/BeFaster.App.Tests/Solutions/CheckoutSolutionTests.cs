@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BeFaster.App.Solutions.Checkout;
+using NUnit.Framework;
 
 namespace BeFaster.App.Tests.Solutions
 {
-    class CheckoutSolutionTests
+    [TestFixture]
+    class WhenBuyingASingleItem
     {
+        [Test]
+        public void ItHasTheCorrectPrice()
+        {
+            var checkoutPricer = new CheckoutPricer();
+            Assert.That(checkoutPricer.CalculatePrice("X"), Is.EqualTo(10));
+        }
     }
-}
+}
