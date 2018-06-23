@@ -81,12 +81,17 @@ namespace BeFaster.App.Solutions.Checkout
 
         private int CalculateMultiPriceFor(IList<MultiPrice> multiPriceOffers, int individualPrice, int quantity)
         {
-            //var numberOfMultiGroups = quantity / multiPrice.Quantity;
-            //var numberLeftOver = quantity % multiPrice.Quantity;
-            //var offerPrice = numberOfMultiGroups * multiPrice.Price
-            //    + numberLeftOver * individualPrice;
-            //return offerPrice;
-            throw new NotImplementedException();
+            var offersOrderedByAveragePrice = multiPriceOffers
+                .OrderByDescending(x => decimal.Divide(x.Price, x.Quantity));
+            var priceSoFar = 0;
+            var quantityLeft = quantity;
+            foreach (var offer in offersOrderedByAveragePrice)
+            {
+                var numberOfTimesToApplyOffer = quantityLeft / offer.Quantity;
+                quantityLeft = quantity % offer.Quantity;
+                priceSoFar += numberOfTimesToApplyOffer * offer.Price;
+            }
+            return priceSoFar + quantityLeft * individualPrice;
         }
 
         private Dictionary<char, int> CreateItemsCountDictionary(string skus)
