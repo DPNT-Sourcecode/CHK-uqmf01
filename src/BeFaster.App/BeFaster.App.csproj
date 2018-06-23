@@ -61,6 +61,9 @@
   <ItemGroup>
     <Compile Include="SendCommandToServer.cs" />
     <Compile Include="Solutions\CheckoutSolution.cs" />
+    <Compile Include="Solutions\Checkout\CheckoutPricer.cs" />
+    <Compile Include="Solutions\Checkout\ICheckoutPricer.cs" />
+    <Compile Include="Solutions\Checkout\IPriceDatabase.cs" />
     <Compile Include="Solutions\FizzBuzzSolution.cs" />
     <Compile Include="Solutions\HelloSolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

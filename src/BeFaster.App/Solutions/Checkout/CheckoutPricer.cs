@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BeFaster.App.Solutions.Checkout
+﻿namespace BeFaster.App.Solutions.Checkout
 {
-    class CheckoutPricer
+    public class CheckoutPricer : ICheckoutPricer
     {
+        private readonly IPriceDatabase priceDatabase;
+
+        public CheckoutPricer(IPriceDatabase priceDatabase)
+        {
+            this.priceDatabase = priceDatabase;
+        }
+
+        public int CalculatePrice(string skus)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
