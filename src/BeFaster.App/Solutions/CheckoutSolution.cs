@@ -31,7 +31,27 @@ namespace BeFaster.App.Solutions
                     { 'C', 20 },
                     { 'D', 15 },
                     { 'E', 40 },
-                    { 'F', 10 }
+                    { 'F', 10 },
+                    { 'G', 20 },
+                    { 'H', 10 },
+                    { 'I', 35 },
+                    { 'J', 60 },
+                    { 'K', 80 },
+                    { 'L', 90 },
+                    { 'M', 15 },
+                    { 'N', 40 },
+                    { 'O', 10 },
+                    { 'P', 50 },
+                    { 'Q', 30 },
+                    { 'R', 50 },
+                    { 'S', 30 },
+                    { 'T', 20 },
+                    { 'U', 40 },
+                    { 'V', 50 },
+                    { 'W', 20 },
+                    { 'X', 90 },
+                    { 'Y', 10 },
+                    { 'Z', 50 },
                 };
 
                 multiPrices = new Dictionary<char, List<MultiPrice>>
@@ -43,11 +63,27 @@ namespace BeFaster.App.Solutions
                     }},
                     {'B', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 45) } },
                     {'F', new List<MultiPrice>{new MultiPrice(quantity: 3, price: 20) } },// Buy 2 get 1 free
+                    {'H', new List<MultiPrice>
+                    {
+                        new MultiPrice(quantity: 5, price: 45),
+                        new MultiPrice(quantity: 10, price: 80),
+                    }},
+                    {'K', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 150) } },
+                    {'P', new List<MultiPrice>{new MultiPrice(quantity: 5, price: 200) } },
+                    {'Q', new List<MultiPrice>{new MultiPrice(quantity: 3, price: 80) } },
+                    {'U', new List<MultiPrice>{new MultiPrice(quantity: 4, price: 120) } },// Buy 3 get 1 free
+                    {'V', new List<MultiPrice>
+                    {
+                        new MultiPrice(quantity: 2, price: 90),
+                        new MultiPrice(quantity: 3, price: 130),
+                    }},
                 };
 
                 getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>
                 {
-                    {'E', new GetOneFreeOffer(quantity: 2, freeSku: 'B') }
+                    {'E', new GetOneFreeOffer(quantity: 2, freeSku: 'B') },
+                    {'N', new GetOneFreeOffer(quantity: 3, freeSku: 'M') },
+                    {'R', new GetOneFreeOffer(quantity: 3, freeSku: 'Q') },
                 };
             }
 

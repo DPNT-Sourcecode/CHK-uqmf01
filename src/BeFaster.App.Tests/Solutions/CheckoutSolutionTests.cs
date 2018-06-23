@@ -32,6 +32,7 @@ namespace BeFaster.App.Tests.Solutions
         [TestCase("FFFF", 30)]
         [TestCase("FFFFF", 40)]
         [TestCase("FFFFFF", 40)]
+        // All the G-Z items are just other conbinations and types of offers already being tested, so I don't see the need to add more tests
         public void PriceIsCorrectlyCalculated(string skus, int price)
         {
             Assert.That(CheckoutSolution.Checkout(skus), Is.EqualTo(price));
