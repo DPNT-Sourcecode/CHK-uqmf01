@@ -138,17 +138,14 @@ namespace BeFaster.App.Tests.Solutions
                 .Returns(new GetOneFreeOffer(quantity: 2, freeSkus: "Y"));
         }
 
-        [TestCase("X", 10)]
+        [TestCase("XXY", 20)]
         [TestCase("XX", 20)]
-        [TestCase("XXX", 25)]
-        [TestCase("XXXX", 35)]
-        [TestCase("XXXXX", 45)]
-        [TestCase("XXXXXX", 50)]
-        [TestCase("XXXXXXX", 60)]
+        [TestCase("XXYY", 25)]
+        [TestCase("XXXXYY", 40)]
         public void BuyingSeveralItemsHasTheCorrectPrice(string skus, int correctPrice)
         {
             var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
-}
+}

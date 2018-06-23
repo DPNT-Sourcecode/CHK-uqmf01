@@ -2,13 +2,13 @@
 {
     public class GetOneFreeOffer
     {
-        public GetOneFreeOffer(int quantity, string freeSkus)
+        public GetOneFreeOffer(int quantity, char freeSku)
         {
             Quantity = quantity;
-            FreeSkus = freeSkus;
+            FreeSku = freeSku;
         }
 
         public int Quantity { get; }
-        public string FreeSkus { get; }
+        public char FreeSku { get; }
     }
 }

@@ -35,7 +35,9 @@ namespace BeFaster.App.Solutions.Checkout
             {
                 var sku = skuAndQuantity.Key;
                 var quantity = skuAndQuantity.Value;
-                total += CalculatePriceFor(sku, quantity);
+                var freeItems = potentialFreeItems?[sku] ?? 0;
+                // Note: We are asuming here that it's always better to give the free items, this might not be best
+                total += CalculatePriceFor(sku, quantity - freeItems);
             }
             return total;
         }
@@ -55,9 +57,13 @@ namespace BeFaster.App.Solutions.Checkout
                     {
                         potentialFreeCounts[getFreeItemOffer.FreeSku] += canBeAppliedCount;
                     }
+                    else
+                    {
+                        potentialFreeCounts[getFreeItemOffer.FreeSku] = canBeAppliedCount;
+                    }
                 }
-
             }
+            return potentialFreeCounts;
         }
 
         private int CalculatePriceFor(char sku, int quantity)
@@ -88,4 +94,4 @@ namespace BeFaster.App.Solutions.Checkout
                 .ToDictionary(x => x.Key, x => x.Count());
         }
     }
-}
+}
