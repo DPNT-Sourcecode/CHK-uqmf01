@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace BeFaster.App.Tests.Solutions
 {
+    // todo This file needs a bit of a refacter! 
     [TestFixture]
     class WhenTryingToBuyAnItemThatDoesNotExist
     {
@@ -92,8 +93,6 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
-
-
 
     [TestFixture]
     class WhenABadMultiPriceOfferExists
