@@ -56,7 +56,7 @@ namespace BeFaster.App
             var runner = new QueueBasedImplementationRunner.Builder()
                 .SetConfig(Utils.GetRunnerConfig())
                 .WithSolutionFor("sum", p => SumSolution.Sum(p[0].AsInt(), p[1].AsInt()))
-                .WithSolutionFor("hello", p => HelloSolution.Hello())//p[0]
+                .WithSolutionFor("hello", p => HelloSolution.Hello(p[0]))
                 .WithSolutionFor("fizz_buzz", p => FizzBuzzSolution.FizzBuzz(p[0].AsInt()))
                 .WithSolutionFor("checkout", p => CheckoutSolution.Checkout(p[0]))
                 .Create();

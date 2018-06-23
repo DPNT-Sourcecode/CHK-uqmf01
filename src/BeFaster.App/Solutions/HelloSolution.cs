@@ -2,9 +2,9 @@
 {
     public static class HelloSolution
     {
-        public static string Hello()
+        public static string Hello(string friendName)
         {
-            return string.Format("Hello, World!");
+            return string.Format("Hello, {0}!", friendName);
         }
     }
 }
