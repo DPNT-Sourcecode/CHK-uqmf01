@@ -17,15 +17,7 @@ namespace BeFaster.App.Solutions.Checkout
         {
             try
             {
-                var total = 0;
-                var items = CreateItemsCountDictionary(skus);
-                foreach(var skuAndQuantity in items)
-                {
-                    var sku = skuAndQuantity.Key;
-                    var quantity = skuAndQuantity.Value;
-                    total += CalculatePriceFor(sku, quantity);
-                }
-                return total;
+                return CalculatePriceInternal(skus);
             }
             catch (SkuInvalidException)
             {
@@ -34,15 +26,34 @@ namespace BeFaster.App.Solutions.Checkout
             }
         }
 
+        private int CalculatePriceInternal(string skus)
+        {
+            var total = 0;
+            var items = CreateItemsCountDictionary(skus);
+            foreach (var skuAndQuantity in items)
+            {
+                var sku = skuAndQuantity.Key;
+                var quantity = skuAndQuantity.Value;
+                total += CalculatePriceFor(sku, quantity);
+            }
+            return total;
+        }
+
         private int CalculatePriceFor(char sku, int quantity)
         {
             var multiPrice = priceDatabase.GetMultiPriceOfferFor(sku);
             var individualPrice = priceDatabase.GetIndividualPriceFor(sku);
-            if(multiPrice == null)
+            var normalPrice = individualPrice * quantity;
+            if (multiPrice == null)
             {
-                return individualPrice * quantity;
+                return normalPrice;
             }
+            var offerPrice = CalculateMultiPriceFor(multiPrice, individualPrice, quantity);
+            return Math.Min(normalPrice, offerPrice);
+        }
 
+        private int CalculateMultiPriceFor(MultiPrice multiPrice, int individualPrice, int quantity)
+        {
             var numberOfMultiGroups = quantity / multiPrice.Quantity;
             var numberLeftOver = quantity % multiPrice.Quantity;
             var offerPrice = numberOfMultiGroups * multiPrice.Price
