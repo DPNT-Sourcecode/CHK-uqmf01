@@ -30,6 +30,7 @@ namespace BeFaster.App.Solutions.Checkout
         {
             var total = 0;
             var items = CreateItemsCountDictionary(skus);
+            var potentialFreeItems = CalulatePotentialFreeItemCounts(items);
             foreach (var skuAndQuantity in items)
             {
                 var sku = skuAndQuantity.Key;
@@ -37,6 +38,26 @@ namespace BeFaster.App.Solutions.Checkout
                 total += CalculatePriceFor(sku, quantity);
             }
             return total;
+        }
+
+        private Dictionary<char, int> CalulatePotentialFreeItemCounts(Dictionary<char, int> items)
+        {
+            var potentialFreeCounts = new Dictionary<char, int>();
+            foreach (var skuAndQuantity in items)
+            {
+                var sku = skuAndQuantity.Key;
+                var quantity = skuAndQuantity.Value;
+                var getFreeItemOffer = priceDatabase.GetGetOneFreeOfferFor(sku);
+                if(getFreeItemOffer != null)
+                {
+                    var canBeAppliedCount = quantity / getFreeItemOffer.Quantity;
+                    if (potentialFreeCounts.ContainsKey(getFreeItemOffer.FreeSku))
+                    {
+                        potentialFreeCounts[getFreeItemOffer.FreeSku] += canBeAppliedCount;
+                    }
+                }
+
+            }
         }
 
         private int CalculatePriceFor(char sku, int quantity)
