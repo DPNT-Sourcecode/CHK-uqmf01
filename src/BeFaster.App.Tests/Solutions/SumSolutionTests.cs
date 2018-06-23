@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace BeFaster.App.Tests.Solutions
 {
     [TestFixture]
-    public class SumSolutionTest
+    public class SumSolutionTests
     {
         [TestCase(1, 1, ExpectedResult = 2)]
         [TestCase(0, 0, ExpectedResult = 0)]
