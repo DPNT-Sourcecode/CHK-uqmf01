@@ -120,4 +120,35 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
+
+    [TestFixture]
+    class WhenAGetOneFreeOfferExists
+    {
+        private Mock<IPriceDatabase> priceDatabase;
+
+        [SetUp]
+        public void SetUp()
+        {
+            priceDatabase = new Mock<IPriceDatabase>();
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
+                .Returns(10);
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('Y'))
+                .Returns(5);
+            priceDatabase.Setup(x => x.GetGetOneFreeOfferFor('X'))
+                .Returns(new GetOneFreeOffer(quantity: 2, freeSkus: "Y"));
+        }
+
+        [TestCase("X", 10)]
+        [TestCase("XX", 20)]
+        [TestCase("XXX", 25)]
+        [TestCase("XXXX", 35)]
+        [TestCase("XXXXX", 45)]
+        [TestCase("XXXXXX", 50)]
+        [TestCase("XXXXXXX", 60)]
+        public void BuyingSeveralItemsHasTheCorrectPrice(string skus, int correctPrice)
+        {
+            var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
+            Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
+        }
+    }
 }

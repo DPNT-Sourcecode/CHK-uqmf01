@@ -20,6 +20,7 @@ namespace BeFaster.App.Solutions
         {
             private readonly Dictionary<char, int> individualPrices;
             private readonly Dictionary<char, MultiPrice> multiPrices;
+            private readonly Dictionary<char, GetOneFreeOffer> getOneFreeOffers;
 
             public InMemoryPriceDatabase()
             {
@@ -29,6 +30,7 @@ namespace BeFaster.App.Solutions
                     { 'B', 30 },
                     { 'C', 20 },
                     { 'D', 15 },
+                    { 'E', 40 },
                 };
 
                 multiPrices = new Dictionary<char, MultiPrice>
@@ -36,6 +38,13 @@ namespace BeFaster.App.Solutions
                     {'A', new MultiPrice(quantity: 3, price: 130) },
                     {'B', new MultiPrice(quantity: 2, price: 45) },
                 };
+
+                getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>();
+            }
+
+            public GetOneFreeOffer GetGetOneFreeOfferFor(char sku)
+            {
+                throw new System.NotImplementedException();
             }
 
             public int GetIndividualPriceFor(char sku)
