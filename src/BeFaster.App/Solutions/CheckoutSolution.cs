@@ -39,35 +39,36 @@ namespace BeFaster.App.Solutions
                     {'B', new MultiPrice(quantity: 2, price: 45) },
                 };
 
-                getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>();
+                getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>
+                {
+                    {'E', new GetOneFreeOffer(quantity: 2, freeSku: 'B') }
+                };
             }
 
             public GetOneFreeOffer GetGetOneFreeOfferFor(char sku)
             {
-                throw new System.NotImplementedException();
+                AssertSkuExists(sku);
+                return getOneFreeOffers?[sku];
             }
 
             public int GetIndividualPriceFor(char sku)
             {
-                if (individualPrices.ContainsKey(sku))
-                {
-                    return individualPrices[sku];
-                }
-                throw new SkuInvalidException(sku);
+                AssertSkuExists(sku);
+                return individualPrices[sku];
             }
 
             public MultiPrice GetMultiPriceOfferFor(char sku)
             {
-                if (multiPrices.ContainsKey(sku))
+                AssertSkuExists(sku);
+                return multiPrices?[sku];
+            }
+
+            private void AssertSkuExists(char sku)
+            {
+                if (!individualPrices.ContainsKey(sku))
                 {
-                    return multiPrices[sku];
+                    throw new SkuInvalidException(sku);
                 }
-                if (individualPrices.ContainsKey(sku))
-                {
-                    // It's a valid sku, but there is no offer
-                    return null;
-                }
-                throw new SkuInvalidException(sku);
             }
         }
     }
