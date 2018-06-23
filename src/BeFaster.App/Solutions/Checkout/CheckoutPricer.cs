@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace BeFaster.App.Solutions.Checkout
 {
@@ -26,20 +27,91 @@ namespace BeFaster.App.Solutions.Checkout
             }
         }
 
+        public class Basket
+        {
+            private Basket(Dictionary<char, int> itemsLeftToCost, int priceSoFar)
+            {
+                ItemsLeftToCostDictionary = itemsLeftToCost;
+                PriceSoFar = priceSoFar;
+            }
+
+            public Basket(string itemsLeftToCost, int priceSoFar)
+            {
+                ItemsLeftToCostDictionary = itemsLeftToCost.GroupBy(x => x)
+                    .ToDictionary(x => x.Key, x => x.Count()); ;
+                PriceSoFar = priceSoFar;
+            }
+
+            private Dictionary<char, int> ItemsLeftToCostDictionary { get; }
+            public int PriceSoFar { get; }
+
+            public string ItemsLeftToCost()
+            {
+                var builder = new StringBuilder();
+                foreach(var kvp in ItemsLeftToCostDictionary)
+                {
+                    for(var i = 0; i < kvp.Value; i++)
+                    {
+                        builder.Append(kvp.Key);
+                    }
+                }
+                return builder.ToString();
+            }
+
+            internal Basket Processed(IEnumerable<char> costedItems, int atPrice)
+            {
+                var newItemsLeftToCost = ItemsLeftToCostDictionary
+                    .ToDictionary(x => x.Key, x => x.Value - costedItems.Count(c => c == x.Value));
+                return new Basket(newItemsLeftToCost, PriceSoFar + atPrice);
+            }
+        }
+
         private int CalculatePriceInternal(string skus)
         {
-            var total = 0;
-            var items = CreateItemsCountDictionary(skus);
+            var basket = new Basket(skus, priceSoFar: 0);
+            
+            foreach(var groupOffer in priceDatabase.GetGroupOffers())
+            {
+                basket = ApplyGroupOffer(basket, groupOffer);
+            }
+            var items = CreateItemsCountDictionary(basket.ItemsLeftToCost());
+            var total = basket.PriceSoFar;
             var potentialFreeItems = CalulatePotentialFreeItemCounts(items);
             foreach (var skuAndQuantity in items)
             {
                 var sku = skuAndQuantity.Key;
                 var quantity = skuAndQuantity.Value;
                 var freeItems = potentialFreeItems.ContainsKey(sku) ? potentialFreeItems[sku] : 0;
-                // Note: We are asuming here that it's always better to give the free items, this might not be best
+                // Note: We are asuming here that it's always better to give the free items,
+                // this might not be best for the customer (eg in situations where it is cheaper to have
+                // an extra item in the basket)
+                // Although this will work for all the offers we currently support
                 total += CalculatePriceFor(sku, quantity - freeItems);
             }
             return total;
+        }
+
+        private Basket ApplyGroupOffer(Basket basket, GroupOffer groupOffer)
+        {
+            var relaventItems = basket.ItemsLeftToCost()
+                .Where(x => groupOffer.AppliesTo(x))
+                .ToList();
+            if(relaventItems.Count < groupOffer.Quantity)
+            {
+                // Cannot apply offer
+                return basket;
+            }
+            var itemsToApplyTo = relaventItems
+                .OrderByDescending(x => priceDatabase.GetIndividualPriceFor(x))
+                .Take(groupOffer.Quantity);
+            var normalPrice = itemsToApplyTo.Sum(x => priceDatabase.GetIndividualPriceFor(x));
+            if(normalPrice <= groupOffer.Price)
+            {
+                // No point applying offer
+                return basket;
+            }
+            var leftOverBasket = basket.Processed(itemsToApplyTo, atPrice: groupOffer.Price);
+            return ApplyGroupOffer(leftOverBasket, groupOffer);
         }
 
         private Dictionary<char, int> CalulatePotentialFreeItemCounts(Dictionary<char, int> items)
