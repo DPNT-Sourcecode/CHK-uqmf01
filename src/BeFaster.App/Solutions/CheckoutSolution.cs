@@ -31,6 +31,7 @@ namespace BeFaster.App.Solutions
                     { 'C', 20 },
                     { 'D', 15 },
                     { 'E', 40 },
+                    { 'F', 10 }
                 };
 
                 multiPrices = new Dictionary<char, List<MultiPrice>>
@@ -41,6 +42,7 @@ namespace BeFaster.App.Solutions
                         new MultiPrice(quantity: 5, price: 200),
                     }},
                     {'B', new List<MultiPrice>{new MultiPrice(quantity: 2, price: 45) } },
+                    {'F', new List<MultiPrice>{new MultiPrice(quantity: 3, price: 20) } },// Buy 2 get 1 free
                 };
 
                 getOneFreeOffers = new Dictionary<char, GetOneFreeOffer>
