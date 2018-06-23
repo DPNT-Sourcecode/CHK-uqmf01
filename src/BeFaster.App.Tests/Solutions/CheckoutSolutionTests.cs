@@ -26,6 +26,12 @@ namespace BeFaster.App.Tests.Solutions
         [TestCase("EEA", 130)]
         [TestCase("EEBB", 110)]
         [TestCase("EEBBB", 125)]
+        [TestCase("F", 10)]
+        [TestCase("FF", 20)]
+        [TestCase("FFF", 20)]
+        [TestCase("FFFF", 30)]
+        [TestCase("FFFFF", 40)]
+        [TestCase("FFFFFF", 40)]
         public void PriceIsCorrectlyCalculated(string skus, int price)
         {
             Assert.That(CheckoutSolution.Checkout(skus), Is.EqualTo(price));
