@@ -105,6 +105,11 @@ namespace BeFaster.App.Solutions
                 return getOneFreeOffers.ContainsKey(sku) ? getOneFreeOffers[sku] : null;
             }
 
+            public IList<GroupOffer> GetGroupOffers()
+            {
+                return new GroupOffer[] { new GroupOffer(skus: "STXYZ", quantity: 3, price: 45) };
+            }
+
             private void AssertSkuExists(char sku)
             {
                 if (!individualPrices.ContainsKey(sku))
