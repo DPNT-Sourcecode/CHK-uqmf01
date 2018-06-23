@@ -11,7 +11,12 @@
 
         public int CalculatePrice(string skus)
         {
-            throw new System.NotImplementedException();
+            var total = 0;
+            foreach(var sku in skus)
+            {
+                total += priceDatabase.GetIndividualPriceFor(sku);
+            }
+            return total;
         }
     }
 }
