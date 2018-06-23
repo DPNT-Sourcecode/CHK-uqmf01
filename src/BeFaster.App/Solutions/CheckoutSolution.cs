@@ -1,5 +1,6 @@
 ﻿using BeFaster.App.Solutions.Checkout;
 using BeFaster.Runner.Exceptions;
+using System;
 using System.Collections.Generic;
 
 namespace BeFaster.App.Solutions
@@ -26,6 +27,7 @@ namespace BeFaster.App.Solutions
                     { 'C', 20 },
                     { 'D', 15 },
                 };
+
                 multiPrices = new Dictionary<char, MultiPrice>
                 {
                     {'A', new MultiPrice(quantity: 3, price: 130) },
@@ -34,12 +36,25 @@ namespace BeFaster.App.Solutions
             }
             public int GetIndividualPriceFor(char sku)
             {
-                throw new System.NotImplementedException();
+                if (individualPrices.ContainsKey(sku))
+                {
+                    return individualPrices[sku];
+                }
+                throw new SkuInvalidException(sku);
             }
 
             public MultiPrice GetMultiPriceOfferFor(char sku)
             {
-                throw new System.NotImplementedException();
+                if (multiPrices.ContainsKey(sku))
+                {
+                    return multiPrices[sku];
+                }
+                if (individualPrices.ContainsKey(sku))
+                {
+                    // It's a valid sku, but there is no offer
+                    return null;
+                }
+                throw new SkuInvalidException(sku);
             }
         }
     }
