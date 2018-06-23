@@ -58,7 +58,7 @@ namespace BeFaster.App.Solutions.Checkout
                 return builder.ToString();
             }
 
-            internal Basket Processed(IEnumerable<char> costedItems, int atPrice)
+            internal Basket Processed(IList<char> costedItems, int atPrice)
             {
                 var newItemsLeftToCost = ItemsLeftToCostDictionary
                     .ToDictionary(x => x.Key, x => x.Value - costedItems.Count(c => c == x.Value));
@@ -103,7 +103,8 @@ namespace BeFaster.App.Solutions.Checkout
             }
             var itemsToApplyTo = relaventItems
                 .OrderByDescending(x => priceDatabase.GetIndividualPriceFor(x))
-                .Take(groupOffer.Quantity);
+                .Take(groupOffer.Quantity)
+                .ToList();
             var normalPrice = itemsToApplyTo.Sum(x => priceDatabase.GetIndividualPriceFor(x));
             if(normalPrice <= groupOffer.Price)
             {
@@ -111,7 +112,7 @@ namespace BeFaster.App.Solutions.Checkout
                 return basket;
             }
             var leftOverBasket = basket.Processed(itemsToApplyTo, atPrice: groupOffer.Price);
-            return ApplyGroupOffer(leftOverBasket, groupOffer);
+            return leftOverBasket;
         }
 
         private Dictionary<char, int> CalulatePotentialFreeItemCounts(Dictionary<char, int> items)
