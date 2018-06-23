@@ -4,13 +4,12 @@ using NUnit.Framework;
 namespace BeFaster.App.Tests.Solutions
 {
     [TestFixture]
-    public class HelloSolutionTests
+    public class WhenSayingHello
     {
         [Test]
-        public void TestHello()
+        public void TheCorrectGreetingIsGiven()
         {
-            var name = "John";
-            Assert.That(HelloSolution.Hello(name), Is.EqualTo("Hello World, I'm John"));
+            Assert.That(HelloSolution.Hello(), Is.EqualTo("Hello, World!"));
         }
     }
 }
