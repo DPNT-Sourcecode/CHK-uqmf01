@@ -92,4 +92,33 @@ namespace BeFaster.App.Tests.Solutions
             Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
         }
     }
+
+
+
+    [TestFixture]
+    class WhenABadMultiPriceOfferExists
+    {
+        private Mock<IPriceDatabase> priceDatabase;
+
+        [SetUp]
+        public void SetUp()
+        {
+            priceDatabase = new Mock<IPriceDatabase>();
+            priceDatabase.Setup(x => x.GetIndividualPriceFor('X'))
+                .Returns(10);
+            priceDatabase.Setup(x => x.GetMultiPriceOfferFor('X'))
+                .Returns(new MultiPrice(quantity: 2, price: 25));
+        }
+
+        [TestCase("X", 10)]
+        [TestCase("XX", 20)]
+        [TestCase("XXX", 30)]
+        [TestCase("XXXX", 40)]
+        [TestCase("XXXXX", 50)]
+        public void TheCustomerIsNotRippedOff(string skus, int correctPrice)
+        {
+            var checkoutPricer = new CheckoutPricer(priceDatabase.Object);
+            Assert.That(checkoutPricer.CalculatePrice(skus), Is.EqualTo(correctPrice));
+        }
+    }
 }
